@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RekenRace is een serious web game waarin kinderen rekensommen oplossen om een raceauto naar de finish te brengen.">
+  <title>RekenRace</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="math-rain" id="math-rain" aria-hidden="true"></div>
+
+  <main class="game-shell">
+    <section class="setup-screen card" id="setup-screen">
+      <div class="setup-copy">
+  
+        <h1>RekenRace</h1>
+        <p class="hero-text">Kies eerst jouw groep, moeilijkheid en soort som. Daarna opent het spel in een ruime, overzichtelijke speelweergave.</p>
+      </div>
+
+      <div class="setup-panel">
+        <h2>Startinstellingen</h2>
+
+        <div class="settings-grid compact-settings">
+          <article class="setting-box card soft-card">
+            <label for="age-group-select">Groep</label>
+            <select id="age-group-select">
+              <option value="group5">Groep 5</option>
+              <option value="group6" selected>Groep 6</option>
+              <option value="group7">Groep 7</option>
+              <option value="group8">Groep 8</option>
+            </select>
+          </article>
+
+          <article class="setting-box card soft-card">
+            <label for="difficulty-select">Moeilijkheid</label>
+            <select id="difficulty-select">
+              <option value="easy">Makkelijk</option>
+              <option value="normal" selected>Normaal</option>
+              <option value="hard">Moeilijk</option>
+            </select>
+          </article>
+
+          <article class="setting-box card soft-card">
+            <label for="mode-select">Soort som</label>
+            <select id="mode-select">
+              <option value="mix" selected>Mix</option>
+              <option value="add">Optellen</option>
+              <option value="subtract">Aftrekken</option>
+              <option value="multiply">Vermenigvuldigen</option>
+            </select>
+          </article>
+        </div>
+
+        <div class="setup-actions">
+          <button id="start-btn" type="button">Start Game</button>
+          <button id="instruction-btn" type="button" class="secondary-btn">Instructie</button>
+          <button id="sound-btn" type="button" class="secondary-btn">Geluid aan</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="game-screen hidden" id="game-screen">
+      <header class="game-topbar card">
+        <div>
+          <p class="eyebrow">RekenRace</p>
+          <h2 class="game-title">Speelscherm</h2>
+          <p class="selected-summary" id="selected-summary">Groep 6 • Normaal • Mix</p>
+        </div>
+
+        <div class="hero-status compact-status">
+          <span class="status-label">Spelstatus</span>
+          <strong id="status-badge">Klaar om te starten</strong>
+        </div>
+      </header>
+
+      <section class="dashboard-grid compact-dashboard slim-dashboard">
+        <article class="stat-box card compact-stat">
+          <span class="stat-label">Score</span>
+          <strong class="stat-value" id="score">0 punten</strong>
+        </article>
+
+        <article class="stat-box card compact-stat urgent-stat">
+          <span class="stat-label">Timer</span>
+          <strong class="stat-value" id="timer">12 sec</strong>
+        </article>
+
+        <article class="stat-box card compact-stat">
+          <span class="stat-label">Voortgang</span>
+          <strong class="stat-value" id="track-progress">0%</strong>
+        </article>
+      </section>
+
+      <section class="main-grid compact-main-grid">
+        <article class="question-card card">
+          <div class="card-decoration"></div>
+          <div class="question-topbar">
+            <span id="mode-label">Mix</span>
+            <span id="question-counter">Vraag 0 / 15</span>
+          </div>
+          <div class="question-meta-row">
+            <span class="mini-pill" id="level">Level 1</span>
+            <span class="mini-pill" id="streak">Streak 0</span>
+            <span class="mini-pill subtle-pill" id="adaptive-status">Basis</span>
+          </div>
+          <h2>Rekensom</h2>
+          <p class="question-display" id="question">Klik op Start Game</p>
+          <p class="helper-text" id="question-help">Je krijgt steeds vier antwoordmogelijkheden.</p>
+          <p class="feedback-inline" id="feedback">Klik op Start Game om te beginnen.</p>
+
+          <div class="progress-wrap">
+            <div class="time-bar" aria-hidden="true">
+              <div class="time-bar-fill" id="time-bar-fill"></div>
+            </div>
+            <div class="mini-progress" aria-hidden="true">
+              <div class="mini-progress-fill" id="mini-progress-fill"></div>
+            </div>
+          </div>
+
+          <div class="answers" id="answers">
+            <button class="answer-btn" type="button" disabled>0</button>
+            <button class="answer-btn" type="button" disabled>0</button>
+            <button class="answer-btn" type="button" disabled>0</button>
+            <button class="answer-btn" type="button" disabled>0</button>
+          </div>
+        </article>
+
+        <article class="track-card card">
+          <div class="card-decoration"></div>
+          <div class="track-header">
+            <div>
+              <h2>Racebaan</h2>
+              <p class="track-subtitle">Elke goede som brengt de auto dichter bij de finish.</p>
+            </div>
+          </div>
+
+          <div class="track" id="track" aria-label="Racebaan van start naar finish">
+            <div class="track-overlay"></div>
+            <div class="cloud cloud-a"></div>
+            <div class="cloud cloud-b"></div>
+            <div class="lane-stripe stripe-1"></div>
+            <div class="lane-stripe stripe-2"></div>
+            <div class="lane-stripe stripe-3"></div>
+            <div class="checkpoint cp-1">1</div>
+            <div class="checkpoint cp-2">2</div>
+            <div class="checkpoint cp-3">3</div>
+            <img id="car" src="assets/car.png" alt="Rode raceauto">
+            <img id="finish" src="assets/finish.png" alt="Finishvlag">
+          </div>
+
+          <div class="track-stats compact-track-stats">
+            <div>
+              <span class="track-stat-label">Goed</span>
+              <strong id="correct-count">0</strong>
+            </div>
+            <div>
+              <span class="track-stat-label">Fout</span>
+              <strong id="wrong-count">0</strong>
+            </div>
+            <div>
+              <span class="track-stat-label">Doel</span>
+              <strong id="goal-count">15</strong>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="controls-grid compact-controls slimmer-controls">
+        <button id="restart-btn" type="button">Restart</button>
+        <button id="menu-btn" type="button" class="secondary-btn">Menu</button>
+        <button id="sound-btn-game" type="button" class="icon-btn secondary-btn" aria-label="Geluid aan">🔊</button>
+      </section>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="modal-card">
+      <div class="modal-emoji" id="modal-emoji">🏁</div>
+      <h2 id="modal-title">RekenRace</h2>
+      <p id="modal-text">Bericht</p>
+      <button id="close-modal-btn" type="button">Sluiten</button>
+    </div>
+  </div>
+
+  <script src="js/game.js"></script>
+</body>
+</html>
